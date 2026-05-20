@@ -1,7 +1,7 @@
 from fastapi import FastAPI, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 from database import get_db, engine
-from models import Base, Speciality, User, Application
+from models import Base, Speciality, User, Application, AuditLog
 from passlib.context import CryptContext
 from pydantic import BaseModel
 from datetime import datetime, timedelta, timezone
@@ -65,18 +65,6 @@ def get_specialities(db: Session = Depends(get_db)):
     specialities = db.query(Speciality).all()
     return specialities
 
-@app.post("/specialities")
-def create_speciality(name: str, budget_places: int, fee_places: int, db: Session = Depends(get_db)):
-    new_speciality = Speciality(
-        name=name, 
-        budget_places=budget_places, 
-        fee_places=fee_places
-    )
-    db.add(new_speciality)
-    db.commit()
-    db.refresh(new_speciality)
-    return new_speciality
-
 @app.post("/register")
 def register(user_data: UserCreate, db: Session = Depends(get_db)):
     # Проверяем, существует ли пользователь с таким email
@@ -99,6 +87,9 @@ def register(user_data: UserCreate, db: Session = Depends(get_db)):
     db.commit()
     db.refresh(new_user)
     
+    # ЗАПИСЬ В ЖУРНАЛ
+    log_action(new_user.id, "register", f"email {new_user.email}", db)
+    
     return {"message": "User created successfully", "user_id": new_user.id}
 
 @app.post("/login")
@@ -112,6 +103,9 @@ def login(email: str, password: str, db: Session = Depends(get_db)):
     
     # Создаём пропуск (токен)
     access_token = create_access_token(data={"sub": str(user.id), "role": user.role})
+    
+    # ЗАПИСЬ В ЖУРНАЛ
+    log_action(user.id, "login", f"email {user.email}", db)
     
     return {"access_token": access_token, "token_type": "bearer"}
 
@@ -139,6 +133,9 @@ def create_application(
     db.add(new_app)
     db.commit()
     db.refresh(new_app)
+    
+    # ЗАПИСЬ В ЖУРНАЛ
+    log_action(current_user["user_id"], "create_application", f"speciality {app_data.speciality_id}", db)
     
     return {"message": "Заявление подано", "application_id": new_app.id, "total_score": total}
 
@@ -191,9 +188,14 @@ def create_speciality(
         raise HTTPException(status_code=403, detail="Нет прав")
     
     new_speciality = Speciality(name=name, budget_places=budget_places, fee_places=fee_places)
+    
     db.add(new_speciality)
     db.commit()
     db.refresh(new_speciality)
+    
+    # ЗАПИСЬ В ЖУРНАЛ
+    log_action(current_user["user_id"], "create_speciality", f"{name}", db)
+    
     return new_speciality
 
 def log_action(user_id: int, action: str, details: str = "", db: Session = None):
