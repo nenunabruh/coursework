@@ -206,3 +206,4 @@ def log_action(user_id: int, action: str, details: str = "", db: Session = None)
 "# Get all specialities (public)" 
 "# Create speciality (commission only)" 
 "# Register new user with hashed password" 
+"# Login endpoint returns JWT token" 
