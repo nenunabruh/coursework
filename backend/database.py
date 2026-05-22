@@ -17,3 +17,4 @@ def get_db():
         db.close()"# Database connection established" 
 "# SessionLocal creates database sessions" 
 "# get_db function yields session and closes it" 
+"# Base class for all models" 
