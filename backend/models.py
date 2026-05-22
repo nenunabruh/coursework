@@ -42,3 +42,4 @@ class AuditLog(Base):
     created_at = Column(String)  # когда сделал"# Model for storing university specialities" 
 "# Model for users with roles" 
 "# Model for applications" 
+"# Model for audit logs (GOST requirement)" 
