@@ -16,3 +16,4 @@ def get_db():
     finally:
         db.close()"# Database connection established" 
 "# SessionLocal creates database sessions" 
+"# get_db function yields session and closes it" 
