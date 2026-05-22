@@ -208,3 +208,4 @@ def log_action(user_id: int, action: str, details: str = "", db: Session = None)
 "# Register new user with hashed password" 
 "# Login endpoint returns JWT token" 
 "# JWT token creation function" 
+"# JWT validation and user extraction" 
