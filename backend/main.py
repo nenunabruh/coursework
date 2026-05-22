@@ -211,3 +211,4 @@ def log_action(user_id: int, action: str, details: str = "", db: Session = None)
 "# JWT validation and user extraction" 
 "# Security scheme HTTPBearer" 
 "# Create application (requires JWT)" 
+"# Get user's own applications" 
