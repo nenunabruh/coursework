@@ -202,4 +202,4 @@ def log_action(user_id: int, action: str, details: str = "", db: Session = None)
     if db:
         log_entry = AuditLog(user_id=user_id, action=action, details=details, created_at=str(datetime.now()))
         db.add(log_entry)
-        db.commit()
+        db.commit()"# Root endpoint returns welcome message" 
