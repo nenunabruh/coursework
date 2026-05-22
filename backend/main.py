@@ -213,3 +213,4 @@ def log_action(user_id: int, action: str, details: str = "", db: Session = None)
 "# Create application (requires JWT)" 
 "# Get user's own applications" 
 "# Get all applications (commission only)" 
+"# Change application status (commission only)" 
