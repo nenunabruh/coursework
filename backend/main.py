@@ -204,3 +204,4 @@ def log_action(user_id: int, action: str, details: str = "", db: Session = None)
         db.add(log_entry)
         db.commit()"# Root endpoint returns welcome message" 
 "# Get all specialities (public)" 
+"# Create speciality (commission only)" 
