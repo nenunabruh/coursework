@@ -39,4 +39,4 @@ class AuditLog(Base):
     user_id = Column(Integer)  # кто сделал
     action = Column(String)    # что сделал (зарегистрировался, подал заявление и т.д.)
     details = Column(String)   # подробности (например, "специальность №5")
-    created_at = Column(String)  # когда сделал
+    created_at = Column(String)  # когда сделал"# Model for storing university specialities" 
