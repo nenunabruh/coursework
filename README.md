@@ -6,3 +6,4 @@
 - GET / — приветствие
 - GET /specialities — список специальностей
 - POST /specialities — добавление специальности 
+ 
