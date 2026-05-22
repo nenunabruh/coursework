@@ -41,3 +41,4 @@ class AuditLog(Base):
     details = Column(String)   # подробности (например, "специальность №5")
     created_at = Column(String)  # когда сделал"# Model for storing university specialities" 
 "# Model for users with roles" 
+"# Model for applications" 
